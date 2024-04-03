@@ -1,4 +1,4 @@
-**[![DOI](https://zenodo.org/badge/778490844.svg)](https://zenodo.org/doi/10.5281/zenodo.10888521)**
+**[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10888521.svg)](https://doi.org/10.5281/zenodo.10888521)**
 # **PepStats_Tables_Bash**
 
 ## **Motivation**
