@@ -40,16 +40,16 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program. If not,
 see <https://www.gnu.org/licenses/>.
 
-SCRIPT_NAME:                       PepStats_Tables_v1.0.0.sh
-SCRIPT_VERSION:                    1.0.0
+SCRIPT_NAME:                       PepStats_Tables_v1.0.1.sh
+SCRIPT_VERSION:                    1.0.1
 
-USAGE: PepStats_Tables_v1.0.0.sh
+USAGE: PepStats_Tables_v1.0.1.sh
        -p Homo_sapiens.GRCh38.pep.all.fa               # REQUIRED (Proteins File - Proteome)
        -r PepStats_Tables                              # OPTIONAL (Run Name)
        -z TMPDIR Location                              # OPTIONAL (default=0='TMPDIR Run')
 
 TYPICAL COMMANDS:
-                                   PepStats_Tables_v1.0.0.sh -p Homo_sapiens.GRCh38.pep.all.fa -r PepStats_Tables
+                                   PepStats_Tables_v1.0.1.sh -p Homo_sapiens.GRCh38.pep.all.fa -r PepStats_Tables
 
 INPUT01:          -p FLAG          REQUIRED - Protein File
 INPUT01_FORMAT:                    Fasta Format

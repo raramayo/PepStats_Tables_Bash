@@ -68,13 +68,13 @@ EOF
 };
 
 ## Defining_Script_Current_Version
-version="1.0.0";
+version="1.0.1";
 
 ## Defining_Script_Initial_Version_Data (date '+DATE:%Y/%m/%d%tTIME:%R')
 version_date_initial="DATE:2021/07/17	TIME:00:00";
 
 ## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d%tTIME:%R')
-version_date_current="DATE:2024/02/21	TIME:15:58";
+version_date_current="DATE:2024/04/04	TIME:17:10";
 
 ## Testing_Script_Input
 ## Is the number of arguments null?
@@ -168,19 +168,30 @@ fi
 proteome=${proteinsfile};
 
 ## Generating Directories
-if [ ! -d ./${proteome}_${run_name}.dir ];
+if [[ ! -d ./${proteome}_${run_name}.dir ]];
 then
     mkdir ./${proteome}_${run_name}.dir;
 else
-    rm ./${proteome}_${run_name}.dir/*;
+    rm ./${proteome}_${run_name}.dir/* &>/dev/null;
 fi
+
+if [[ ! -d ./${proteome}_${run_name}.tmp ]];
+then
+    rm -fr ./${proteome}_${run_name}.tmp;
+fi
+
 ## Generating/Cleaning TMP Data Directory
 if [[ $var_tmp_dir -eq 0 ]];
 then
+    ## Defining Script TMP Data Directory
+    var_script_tmp_data_dir="$(pwd)/${proteome}_${run_name}.tmp";
+    export var_script_tmp_data_dir="$(pwd)/${proteome}_${run_name}.tmp";
+
     if [[ -d $(basename "$var_script_tmp_data_dir") ]];
     then
-        mv $(basename "$var_script_tmp_data_dir") $(basename "$var_script_tmp_data_dir"_$(date '+%Y_%m_%d_%R'));
+        rm -fr  $(basename "$var_script_tmp_data_dir");
     fi
+
     if [[ -z $TMPDIR ]];
     then
         ## echo TMPDIR not defined
@@ -188,6 +199,7 @@ then
         var_script_tmp_data_dir="$TMP";
         export  var_script_tmp_data_dir="$TMP";
     fi
+
     if [[ ! -z $TMPDIR ]];
     then
         ## echo TMPDIR defined;
@@ -197,6 +209,7 @@ then
 
     fi
 fi
+
 if [[ $var_tmp_dir -eq 1 ]];
 then
     ## Defining Script TMP Data Directory
@@ -207,7 +220,7 @@ then
     then
         mkdir $(basename "$var_script_tmp_data_dir");
     else
-        mv $(basename "$var_script_tmp_data_dir") $(basename "$var_script_tmp_data_dir"_$(date '+%Y_%m_%d_%R'));
+        rm -fr $(basename "$var_script_tmp_data_dir");
         mkdir $(basename "$var_script_tmp_data_dir");
     fi
 fi
