@@ -45,7 +45,7 @@ USAGE: $(basename ${0})
  -z TMPDIR Location             # OPTIONAL (default='0'='TMPDIR Run')
 
 TYPICAL COMMANDS:
-  $(basename ${0}) -p Proteins_Fasta_File.fa
+ $(basename ${0}) -p Proteins_Fasta_File.fa
 
 INPUT01:          -p FLAG       REQUIRED - Proteins File
 INPUT01_FORMAT:                 Fasta Format
@@ -79,11 +79,11 @@ EOF
 ## Defining_Script_Current_Version
 version="1.0.3";
 
-## Defining_Script_Initial_Version_Data (date '+DATE:%Y/%m/%d%tTIME:%R')
-version_date_initial="DATE:2021/07/17	TIME:00:00";
+## Defining_Script_Initial_Version_Data (date '+DATE:%Y/%m/%d')
+version_date_initial="DATE:2021/07/17";
 
-## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d%tTIME:%R')
-version_date_current="DATE:2024/05/11	TIME:12:07";
+## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d')
+version_date_current="DATE:2024/05/14";
 
 ## Testing_Script_Input
 ## Is the number of arguments null?
@@ -173,30 +173,31 @@ then
 fi
 
 ## Generating Directories
-var_script_out_data_dir="${proteinsfile}_${run_name}.dir";
+var_script_out_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".dir";
+export var_script_out_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".dir";
 
-if [[ ! -d ./${var_script_out_data_dir} ]];
+if [[ ! -d ${var_script_out_data_dir} ]];
 then
-    mkdir ./${var_script_out_data_dir};
+    mkdir ${var_script_out_data_dir};
 else
-    rm ./${var_script_out_data_dir}/* &>/dev/null;
+    rm ${var_script_out_data_dir}/* &>/dev/null;
 fi
 
-if [[ ! -d ./${proteinsfile}_${run_name}.tmp ]];
+if [[ -d ${proteinsfile}_${run_name}.tmp ]];
 then
-    rm -fr ./${proteinsfile}_${run_name}.tmp;
+    rm -fr ${proteinsfile}_${run_name}.tmp &>/dev/null;
 fi
 
 ## Generating/Cleaning TMP Data Directory
 if [[ ${tmp_dir} -eq 0 ]];
 then
     ## Defining Script TMP Data Directory
-    var_script_tmp_data_dir="$(pwd)/${proteinsfile}_${run_name}.tmp";
-    export var_script_tmp_data_dir="$(pwd)/${proteinsfile}_${run_name}.tmp";
+    var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
+    export var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
 
-    if [[ -d $(basename ${var_script_tmp_data_dir}) ]];
+    if [[ -d ${var_script_tmp_data_dir} ]];
     then
-        rm -fr $(basename ${var_script_tmp_data_dir});
+        rm -fr ${var_script_tmp_data_dir};
     fi
 
     if [[ -z ${TMPDIR} ]];
@@ -220,26 +221,26 @@ fi
 if [[ ${tmp_dir} -eq 1 ]];
 then
     ## Defining Script TMP Data Directory
-    var_script_tmp_data_dir="$(pwd)/${proteinsfile}_${run_name}.tmp";
-    export var_script_tmp_data_dir="$(pwd)/${proteinsfile}_${run_name}.tmp";
+    var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
+    export var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
 
-    if [[ ! -d $(basename ${var_script_tmp_data_dir}) ]];
+    if [[ ! -d ${var_script_tmp_data_dir} ]];
     then
-        mkdir $(basename ${var_script_tmp_data_dir});
+        mkdir ${var_script_tmp_data_dir};
     else
-        rm -fr $(basename ${var_script_tmp_data_dir});
-        mkdir $(basename ${var_script_tmp_data_dir});
+        rm -fr ${var_script_tmp_data_dir};
+        mkdir ${var_script_tmp_data_dir};
     fi
 fi
 
 ## Initializing_Log_File
 time_execution_start=$(date +%s)
 echo -e "Starting Processing Genome: "$proteome" on: "$(date)"" \
-     > ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+     > ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 
 ## Verifying_Software_Dependency_Existence
 echo -e "Verifying Software Dependency Existence on: "$(date)"" \
-     >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+     >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 ## Determining_Current_Computer_Platform
 osname=$(uname -s);
 cputype=$(uname -m);
@@ -253,50 +254,51 @@ esac
 ## Determining_GNU_Bash_Version
 if [[ ${BASH_VERSINFO:-0} -ge 4 ]];
 then
-    echo "GNU_BASH version 4 or higher is Installed" >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+    echo "GNU_BASH version "${BASH_VERSINFO}" is Installed" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 else
     echo "GNU_BASH version 4 or higher is Not Installed";
     echo "Please Install GNU_BASH version 4 or higher";
-    rm -fr ./${var_script_out_data_dir};
+    rm -fr ${var_script_out_data_dir};
     rm -fr ${var_script_tmp_data_dir};
     func_usage;
     exit 1;
 fi
 ## pepstats
 type pepstats &> /dev/null;
-var_sde=$(echo $?);
+var_sde=$(echo ${?});
 if [[ ${var_sde} -eq 0 ]];then \
-    echo "pepstats is Installed" >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+    echo "pepstats is Installed" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 else
     echo "EMBOSS pepstats is Not Installed";
     echo "Please Install EMBOSS pepstats";
-    rm -fr ./${var_script_out_data_dir};
+    rm -fr ${var_script_out_data_dir};
     rm -fr ${var_script_tmp_data_dir};
     func_usage;
     exit 1;
 fi
 
-echo -e "Software Dependencies Verified on: "$(date)"\n" >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
-echo -e "Script Running on: "${osname}", "${cputype}"\n" >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+echo -e "Software Dependencies Verified on: "$(date)"\n" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+echo -e "Script Running on: "${osname}", "${cputype}"\n" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 
 ## set LC_ALL to "C"
 export LC_ALL="C";
 
-echo -e "Command Issued Was:" >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
-echo -e "\tGenome Analyzed:\t${proteinsfile}" >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
-echo -e "\tFile Type:\t\tProteome" >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+echo -e "Command Issued Was:" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+echo -e "\tScript Name:\t\t$(basename ${0})" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+echo -e "\tGenome Analyzed:\t${proteinsfile}" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+echo -e "\tFile Type:\t\tProteome" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 
 if [[ ${tmp_dir} -eq 0 ]];
 then
-    echo -e "\tTMPDIR Requested:\t\$TMPDIR Directory" >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+    echo -e "\tTMPDIR Requested:\t\$TMPDIR Directory" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 else
-    echo -e "\tTMPDIR Requested:\tLocal Directory" >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+    echo -e "\tTMPDIR Requested:\tLocal Directory" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 fi
 
 ## Starting_Script
 if [[ ! -s ${var_script_tmp_data_dir}/001_${proteinsfile}.out ]];
 then
-    pepstats -sequence ./"${proteinsfile}" -outfile ${var_script_tmp_data_dir}/001_${proteinsfile}.out 2> /dev/null;
+    pepstats -sequence "${proteinsfile}" -outfile ${var_script_tmp_data_dir}/001_${proteinsfile}.out 2> /dev/null;
 fi
 
 echo '#!/usr/bin/awk -f
@@ -381,22 +383,22 @@ cat ${var_script_tmp_data_dir}/004_${proteinsfile}.out \
 
 
 cp ${var_script_tmp_data_dir}/001_${proteinsfile}.out \
-   ./${var_script_out_data_dir}/${proteinsfile}_${run_name}_Analysis.out
+   ${var_script_out_data_dir}/${proteinsfile}_${run_name}_Analysis.out
 
 cp ${var_script_tmp_data_dir}/005_${proteinsfile}.out \
-   ./${var_script_out_data_dir}/${proteinsfile}_${run_name}_Table.out
+   ${var_script_out_data_dir}/${proteinsfile}_${run_name}_Table.out
 
 rm -fr ${var_script_tmp_data_dir};
 
 # Closing_Log_File
 time_execution_stop=$(date +%s)
 echo -e "\nFinishing Processing proteome: "${proteinsfile}" on: "$(date)"" \
-     >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+     >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 echo -e "Script Runtime: $(echo "${time_execution_stop}"-"${time_execution_start}"|bc -l) seconds" \
-     >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+     >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 echo -e "Script Runtime: $(echo "scale=2;(${time_execution_stop}"-"${time_execution_start})/60"|bc -l) minutes" \
-     >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+     >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 echo -e "Script Runtime: $(echo "scale=2;((${time_execution_stop}"-"${time_execution_start})/60)/60"|bc -l) hours" \
-     >> ./${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+     >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 
 exit 0

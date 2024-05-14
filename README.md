@@ -52,7 +52,7 @@ USAGE: PepStats_Tables_v1.0.3.sh
  -z TMPDIR Location             # OPTIONAL (default='0'='TMPDIR Run')
 
 TYPICAL COMMANDS:
-  PepStats_Tables_v1.0.3.sh -p Proteins_Fasta_File.fa
+ PepStats_Tables_v1.0.3.sh -p Proteins_Fasta_File.fa
 
 INPUT01:          -p FLAG       REQUIRED - Proteins File
 INPUT01_FORMAT:                 Fasta Format
