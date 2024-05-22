@@ -87,15 +87,13 @@ version_date_current="DATE:2024/05/14";
 
 ## Testing_Script_Input
 ## Is the number of arguments null?
-if [[ ${#} -eq 0 ]];
-then
+if [[ ${#} -eq 0 ]];then
     echo -e "\nPlease enter required arguments";
     func_usage;
     exit 1;
 fi
 
-while true;
-do
+while true;do
     case ${1} in
         -h|--h|-help|--help|-\?|--\?)
             func_usage;
@@ -141,14 +139,12 @@ do
 done
 
 ## Processing: -p Flag
-if [[ -z ${proteinsfile} ]];
-then
+if [[ -z ${proteinsfile} ]];then
     echo "Please define a proteins fasta file";
     func_usage;
     exit 1;
 fi
-if [[ ! -f ${proteinsfile} ]];
-then
+if [[ ! -f ${proteinsfile} ]];then
     echo "Please provide a proteins fasta file";
     func_usage;
     exit 1;
@@ -159,14 +155,12 @@ run_name=${run_name:=PepStats_Tables};
 
 ## Processing '-z' Flag
 ## Determining Where The TMPDIR Will Be Generated
-if [[ -z ${tmp_dir} ]];
-then
+if [[ -z ${tmp_dir} ]];then
     tmp_dir=${tmp_dir:=0};
 fi
 
 var_regex="^[0-1]+$"
-if ! [[ ${tmp_dir} =~ $var_regex ]];
-then
+if ! [[ ${tmp_dir} =~ $var_regex ]];then
     echo "Please provide a valid number (e.g., 0 or 1), for this variable";
     func_usage;
     exit 1;
@@ -176,40 +170,34 @@ fi
 var_script_out_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".dir";
 export var_script_out_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".dir";
 
-if [[ ! -d ${var_script_out_data_dir} ]];
-then
+if [[ ! -d ${var_script_out_data_dir} ]];then
     mkdir ${var_script_out_data_dir};
 else
     rm ${var_script_out_data_dir}/* &>/dev/null;
 fi
 
-if [[ -d ${proteinsfile}_${run_name}.tmp ]];
-then
+if [[ -d ${proteinsfile}_${run_name}.tmp ]];then
     rm -fr ${proteinsfile}_${run_name}.tmp &>/dev/null;
 fi
 
 ## Generating/Cleaning TMP Data Directory
-if [[ ${tmp_dir} -eq 0 ]];
-then
+if [[ ${tmp_dir} -eq 0 ]];then
     ## Defining Script TMP Data Directory
     var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
     export var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
 
-    if [[ -d ${var_script_tmp_data_dir} ]];
-    then
+    if [[ -d ${var_script_tmp_data_dir} ]];then
         rm -fr ${var_script_tmp_data_dir};
     fi
 
-    if [[ -z ${TMPDIR} ]];
-    then
+    if [[ -z ${TMPDIR} ]];then
         ## echo "TMPDIR not defined";
         TMP=$(mktemp -d -p ${TMP}); ## &> /dev/null);
         var_script_tmp_data_dir=${TMP};
         export  var_script_tmp_data_dir=${TMP};
     fi
 
-    if [[ ! -z ${TMPDIR} ]];
-    then
+    if [[ ! -z ${TMPDIR} ]];then
         ## echo "TMPDIR defined";
         TMP=$(mktemp -d -p ${TMPDIR}); ## &> /dev/null);
         var_script_tmp_data_dir=${TMP};
@@ -218,14 +206,12 @@ then
     fi
 fi
 
-if [[ ${tmp_dir} -eq 1 ]];
-then
+if [[ ${tmp_dir} -eq 1 ]];then
     ## Defining Script TMP Data Directory
     var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
     export var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
 
-    if [[ ! -d ${var_script_tmp_data_dir} ]];
-    then
+    if [[ ! -d ${var_script_tmp_data_dir} ]];then
         mkdir ${var_script_tmp_data_dir};
     else
         rm -fr ${var_script_tmp_data_dir};
@@ -252,8 +238,7 @@ case "${osname}"-"${cputype}" in
     Linux-*arm* )            plt=ARM ;;
 esac
 ## Determining_GNU_Bash_Version
-if [[ ${BASH_VERSINFO:-0} -ge 4 ]];
-then
+if [[ ${BASH_VERSINFO:-0} -ge 4 ]];then
     echo "GNU_BASH version "${BASH_VERSINFO}" is Installed" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 else
     echo "GNU_BASH version 4 or higher is Not Installed";
@@ -266,7 +251,7 @@ fi
 ## pepstats
 type pepstats &> /dev/null;
 var_sde=$(echo ${?});
-if [[ ${var_sde} -eq 0 ]];then \
+if [[ ${var_sde} -eq 0 ]];then
     echo "pepstats is Installed" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 else
     echo "EMBOSS pepstats is Not Installed";
@@ -288,16 +273,14 @@ echo -e "\tScript Name:\t\t$(basename ${0})" >> ${var_script_out_data_dir}/${pro
 echo -e "\tGenome Analyzed:\t${proteinsfile}" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 echo -e "\tFile Type:\t\tProteome" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 
-if [[ ${tmp_dir} -eq 0 ]];
-then
+if [[ ${tmp_dir} -eq 0 ]];then
     echo -e "\tTMPDIR Requested:\t\$TMPDIR Directory" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 else
     echo -e "\tTMPDIR Requested:\tLocal Directory" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
 fi
 
 ## Starting_Script
-if [[ ! -s ${var_script_tmp_data_dir}/001_${proteinsfile}.out ]];
-then
+if [[ ! -s ${var_script_tmp_data_dir}/001_${proteinsfile}.out ]];then
     pepstats -sequence "${proteinsfile}" -outfile ${var_script_tmp_data_dir}/001_${proteinsfile}.out 2> /dev/null;
 fi
 
