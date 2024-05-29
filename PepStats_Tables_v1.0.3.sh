@@ -83,10 +83,10 @@ version="1.0.3";
 version_date_initial="DATE:2021/07/17";
 
 ## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d')
-version_date_current="DATE:2024/05/23";
+version_date_current="DATE:2024/05/29";
 
 ## Testing_Script_Input
-## Is the number of arguments null?
+## Is_the_number_of_arguments_null?
 if [[ ${#} -eq 0 ]];then
     echo -e "\nPlease enter required arguments";
     func_usage;
@@ -154,7 +154,7 @@ fi
 run_name=${run_name:=PepStats_Tables};
 
 ## Processing '-z' Flag
-## Determining Where The TMPDIR Will Be Generated
+## Determining_Where_The_TMPDIR_Will_Be_Generated
 if [[ -z ${tmp_dir} ]];then
     tmp_dir=${tmp_dir:=0};
 fi
@@ -166,7 +166,7 @@ if ! [[ ${tmp_dir} =~ $var_regex ]];then
     exit 1;
 fi
 
-## Generating Directories
+## Generating_Directories
 var_script_out_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".dir";
 export var_script_out_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".dir";
 
@@ -180,7 +180,7 @@ if [[ -d ${proteinsfile}_${run_name}.tmp ]];then
     rm -fr ${proteinsfile}_${run_name}.tmp &>/dev/null;
 fi
 
-## Generating/Cleaning TMP Data Directory
+## Generating/Cleaning_TMP_Data_Directory
 if [[ ${tmp_dir} -eq 0 ]];then
     ## Defining Script TMP Data Directory
     var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
@@ -207,7 +207,7 @@ if [[ ${tmp_dir} -eq 0 ]];then
 fi
 
 if [[ ${tmp_dir} -eq 1 ]];then
-    ## Defining Script TMP Data Directory
+    ## Defining_Script_TMP_Data Directory
     var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
     export var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
 
@@ -243,6 +243,19 @@ if [[ ${BASH_VERSINFO:-0} -ge 4 ]];then
 else
     echo "GNU_BASH version 4 or higher is Not Installed";
     echo "Please Install GNU_BASH version 4 or higher";
+    rm -fr ${var_script_out_data_dir};
+    rm -fr ${var_script_tmp_data_dir};
+    func_usage;
+    exit 1;
+fi
+## Testing_GNU_Awk_Installation
+type gawk &> /dev/null;
+var_sde=$(echo ${?});
+if [[ ${var_sde} -eq 0 ]];then
+    echo "GNU_AWK is Installed" >> ${var_script_out_data_dir}/${proteinsfile}_${run_name}.log;
+else
+    echo "GNU_AWK is Not Installed";
+    echo "Please Install GNU_AWK";
     rm -fr ${var_script_out_data_dir};
     rm -fr ${var_script_tmp_data_dir};
     func_usage;
@@ -352,7 +365,7 @@ chmod 755 \
       ${var_script_tmp_data_dir}/002_${proteinsfile}.out;
 
 ${var_script_tmp_data_dir}/002_${proteinsfile}.out \
-  ${var_script_tmp_data_dir}/001_${proteinsfile}.out | \
+			  ${var_script_tmp_data_dir}/001_${proteinsfile}.out | \
     awk '{$1=$1}1' OFS="\t" \
 	> ${var_script_tmp_data_dir}/003_${proteinsfile}.out
 
