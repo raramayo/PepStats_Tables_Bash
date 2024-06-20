@@ -43,16 +43,16 @@ more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see <https://www.gnu.org/licenses/>.
 
-SCRIPT_NAME:                    PepStats_Tables_v1.0.3.sh
-SCRIPT_VERSION:                 1.0.3
+SCRIPT_NAME:                    PepStats_Tables_v1.0.4.sh
+SCRIPT_VERSION:                 1.0.4
 
-USAGE: PepStats_Tables_v1.0.3.sh
+USAGE: PepStats_Tables_v1.0.4.sh
  -p Proteins_Fasta_File.fa      # REQUIRED (Proteins File)
  -r PepStats_Tables             # OPTIONAL (Run Name)
  -z TMPDIR Location             # OPTIONAL (default='0'='TMPDIR Run')
 
 TYPICAL COMMANDS:
- PepStats_Tables_v1.0.3.sh -p Proteins_Fasta_File.fa
+ PepStats_Tables_v1.0.4.sh -p Proteins_Fasta_File.fa
 
 INPUT01:          -p FLAG       REQUIRED - Proteins File
 INPUT01_FORMAT:                 Fasta Format

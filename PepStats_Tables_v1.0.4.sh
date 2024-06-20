@@ -77,13 +77,13 @@ EOF
 };
 
 ## Defining_Script_Current_Version
-version="1.0.3";
+version="1.0.4";
 
 ## Defining_Script_Initial_Version_Data (date '+DATE:%Y/%m/%d')
 version_date_initial="DATE:2021/07/17";
 
 ## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d')
-version_date_current="DATE:2024/05/29";
+version_date_current="DATE:2024/06/20";
 
 ## Testing_Script_Input
 ## Is_the_number_of_arguments_null?
@@ -181,29 +181,22 @@ if [[ -d ${proteinsfile}_${run_name}.tmp ]];then
 fi
 
 ## Generating/Cleaning_TMP_Data_Directory
-if [[ ${tmp_dir} -eq 0 ]];then
+if [[ ${tmp_dir} -eq 0 ]]; then
     ## Defining Script TMP Data Directory
-    var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
-    export var_script_tmp_data_dir=""$(pwd)"/"${proteinsfile}"_"${run_name}".tmp";
+    var_script_tmp_data_dir="$(pwd)/"${proteinsfile}"_"${run_name}".tmp";
+    export var_script_tmp_data_dir
 
-    if [[ -d ${var_script_tmp_data_dir} ]];then
-        rm -fr ${var_script_tmp_data_dir};
+    if [[ -d ${var_script_tmp_data_dir} ]]; then
+        rm -fr ${var_script_tmp_data_dir}
     fi
 
-    if [[ -z ${TMPDIR} ]];then
-        ## echo "TMPDIR not defined";
-        TMP=$(mktemp -d -p ${TMP}); ## &> /dev/null);
-        var_script_tmp_data_dir=${TMP};
-        export  var_script_tmp_data_dir=${TMP};
+    if [[ -z ${TMPDIR} ]]; then
+        TMPDIR=$(mktemp -d -t tmp.XXXXXX)
     fi
 
-    if [[ ! -z ${TMPDIR} ]];then
-        ## echo "TMPDIR defined";
-        TMP=$(mktemp -d -p ${TMPDIR}); ## &> /dev/null);
-        var_script_tmp_data_dir=${TMP};
-        export  var_script_tmp_data_dir=${TMP};
-
-    fi
+    TMP=$(mktemp -d -p ${TMPDIR} tmp.XXXXXX)
+    var_script_tmp_data_dir=${TMP}
+    export var_script_tmp_data_dir
 fi
 
 if [[ ${tmp_dir} -eq 1 ]];then
