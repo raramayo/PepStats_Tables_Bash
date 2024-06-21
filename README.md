@@ -30,6 +30,8 @@ In theory, thie script could be easily modified to extract other protein propert
 ###########################################################################
 ARAMAYO_LAB
 
+Copyright (C) 2024 Rodolfo Aramayo
+
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation, either version 3 of the License, or (at your option)
@@ -43,16 +45,16 @@ more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see <https://www.gnu.org/licenses/>.
 
-SCRIPT_NAME:                    PepStats_Tables_v1.0.4.sh
-SCRIPT_VERSION:                 1.0.4
+SCRIPT_NAME:                    PepStats_Tables_v1.0.5.sh
+SCRIPT_VERSION:                 1.0.5
 
-USAGE: PepStats_Tables_v1.0.4.sh
+USAGE: PepStats_Tables_v1.0.5.sh
  -p Proteins_Fasta_File.fa      # REQUIRED (Proteins File)
  -r PepStats_Tables             # OPTIONAL (Run Name)
  -z TMPDIR Location             # OPTIONAL (default='0'='TMPDIR Run')
 
 TYPICAL COMMANDS:
- PepStats_Tables_v1.0.4.sh -p Proteins_Fasta_File.fa
+ PepStats_Tables_v1.0.5.sh -p Proteins_Fasta_File.fa
 
 INPUT01:          -p FLAG       REQUIRED - Proteins File
 INPUT01_FORMAT:                 Fasta Format
@@ -81,6 +83,9 @@ DEPENDENCIES:
 Author:                            Rodolfo Aramayo
 WORK_EMAIL:                        raramayo@tamu.edu
 PERSONAL_EMAIL:                    rodolfo@aramayo.org
+
+Repository: https://github.com/raramayo/PepStats_Tables_Bash
+Issues:     https://github.com/raramayo/PepStats_Tables_Bash/issues
 ###########################################################################
 ```
 
